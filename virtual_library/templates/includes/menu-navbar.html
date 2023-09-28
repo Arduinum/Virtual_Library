@@ -1,0 +1,47 @@
+<nav class="navbar navbar-dark bg-dark sticky-top">
+  <a class="navbar-brand" href="#">Онлайн библиотека</a>
+  {% if request.path == "/book/books/" %}
+    <a class="nav-link name_page" href="{% url 'library:books' %}">Список книг</a>
+  {% endif %}
+  <button class="navbar-toggler" 
+          type="button" 
+          data-toggle="collapse" 
+          data-target="#navbarsExample01" 
+          aria-controls="navbarsExample01" 
+          aria-expanded="false" 
+          aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarsExample01">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'library:books' %}">Список книг
+          <span class="sr-only">
+            (current)
+          </span>
+        </a>
+      </li>
+      {% if user.is_administrator %}
+        <li class="nav-item">
+          <a class="nav-link" href="#">Тестовые данные</a>
+        </li>
+      {% endif %}
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" 
+            href="http://example.com" 
+            id="dropdown01" 
+            data-toggle="dropdown" 
+            aria-haspopup="true" 
+            aria-expanded="false">
+            Создать
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdown01">
+          {% if user.is_administrator %}
+            <a class="dropdown-item" href="#">Тестовые данные</a>
+          {% endif %}
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>

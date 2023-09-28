@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+  Список книг
+{% endblock %}
+
+{% block body %}
+  <main role="main">
+    <div class="album py-5 bg-light">
+      <div class="container">
+        <div class="row">
+          {% for book in books %}
+            <div class="col-md-3">
+              <div class="card mb-4 box-shadow">
+                <img class="card-img-top mx-auto" 
+                  src="/media/{{ book.cover }}" 
+                  style="width: 194px; height: 294px" 
+                  alt="cover"
+                >
+                <div class="card-body">
+                  <h4 class="card-title">
+                    <a href="#">{{ book.title }}</a>
+                  </h4>
+                </div>
+                {% load custom_filters %}
+                <h5>Авторы:</h5>
+                <h5>{{ book.authors.all|adding_authors }}</h5>
+
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </main>
+{% endblock %}
