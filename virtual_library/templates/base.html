@@ -24,7 +24,7 @@
 </head>
 <body class="text-center">
   {% if "login" not in request.path %}
-      {% include './includes/menu-navbar.html' %}
+    {% include './includes/menu-navbar.html' %}
   {% endif %}
   {% block body %}{% endblock %}
   {% if "login" not in request.path %}

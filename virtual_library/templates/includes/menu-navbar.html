@@ -1,7 +1,17 @@
 <nav class="navbar navbar-dark bg-dark sticky-top">
   <a class="navbar-brand" href="#">Онлайн библиотека</a>
-  {% if request.path == "/book/books/" %}
+  {% if request.path == "/library/books/" %}
     <a class="nav-link name_page" href="{% url 'library:books' %}">Список книг</a>
+  {% endif %}
+  {% load custom_filters %}
+  {% if request.path|is_book_detail %}
+    <a class="nav-link name_page" href="#" onclick="location.reload()">Книга</a>
+  {% endif %}
+  {% if "books" and "edit" in request.path %}
+    <a class="nav-link name_page" href="#" onclick="location.reload()">Редактирование книги</a>
+  {% endif %}
+  {% if request.path == "/library/books/new/" %}
+    <a class="nav-link name_page" href="{% url 'library:new_book' %}">Новая книга</a>
   {% endif %}
   <button class="navbar-toggler" 
           type="button" 
@@ -15,33 +25,14 @@
 
   <div class="collapse navbar-collapse" id="navbarsExample01">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="{% url 'library:books' %}">Список книг
-          <span class="sr-only">
-            (current)
-          </span>
-        </a>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'library:books' %}">Список книг</a>
       </li>
-      {% if user.is_administrator %}
+      {% if user.is_superuser or user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link" href="#">Тестовые данные</a>
+          <a class="nav-link" href="{% url 'library:new_book' %}">Новая книга</a>
         </li>
       {% endif %}
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" 
-            href="http://example.com" 
-            id="dropdown01" 
-            data-toggle="dropdown" 
-            aria-haspopup="true" 
-            aria-expanded="false">
-            Создать
-        </a>
-        <div class="dropdown-menu" aria-labelledby="dropdown01">
-          {% if user.is_administrator %}
-            <a class="dropdown-item" href="#">Тестовые данные</a>
-          {% endif %}
-        </div>
-      </li>
     </ul>
   </div>
 </nav>

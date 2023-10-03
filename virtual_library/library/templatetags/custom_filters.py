@@ -16,3 +16,10 @@ def adding_authors(authors_list):
             authors_str += ', '
 
     return authors_str
+
+@register.filter
+def is_book_detail(request_path):
+    if 'books' in request_path:
+        if request_path.split('/')[-2].isdigit():
+            return True
+    return False

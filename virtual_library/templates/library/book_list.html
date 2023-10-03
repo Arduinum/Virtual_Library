@@ -13,19 +13,16 @@
             <div class="col-md-3">
               <div class="card mb-4 box-shadow">
                 <img class="card-img-top mx-auto" 
-                  src="/media/{{ book.cover }}" 
-                  style="width: 194px; height: 294px" 
+                  src="/media/{{ book.cover }}"  
                   alt="cover"
                 >
                 <div class="card-body">
-                  <h4 class="card-title">
-                    <a href="#">{{ book.title }}</a>
-                  </h4>
+                  <h4 class="card-title">{{ book.title }}</h4>
                 </div>
                 {% load custom_filters %}
                 <h5>Авторы:</h5>
                 <h5>{{ book.authors.all|adding_authors }}</h5>
-
+                <a href="{% url 'library:book' book.id %}" class="card-link" data-toggle="tooltip">подробнее</a>
               </div>
             </div>
           {% endfor %}
