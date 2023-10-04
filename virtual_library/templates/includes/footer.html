@@ -1,5 +1,5 @@
 {% load custom_filters %}
-{% if request.path == "/library/books/" %}
+{% if request.path == "/library/books/" or request.path|is_book_detail %}
   <footer class="bg-dark text-white py-4 sticky-bottom">
 {% else %}
   <footer class="bg-dark text-white py-4 fixed-bottom">

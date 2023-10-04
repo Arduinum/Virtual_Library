@@ -13,6 +13,9 @@
   {% if request.path == "/library/books/new/" %}
     <a class="nav-link name_page" href="{% url 'library:new_book' %}">Новая книга</a>
   {% endif %}
+  {% if "books" and "delete" in request.path %}
+    <a class="nav-link name_page" href="#" onclick="location.reload()">Удаление книги</a>
+  {% endif %}
   <button class="navbar-toggler" 
           type="button" 
           data-toggle="collapse" 

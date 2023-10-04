@@ -5,22 +5,25 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
-  <div class="row pt-5">
-      <div class="col-md-12">
-        <div class="card mb-4 box-shadow">
-          <img class="card-img-top ml-3" 
-            src="/media/{{ book.cover }}"  
-            alt="cover"
-          >
-          <h4 class="card-title text-left pt-2 ml-3">Название: {{ book.title }}</h4>
-          {% load custom_filters %}
-          <h5 class="text-left ml-3">Авторы: {{ book.authors.all|adding_authors }}</h5>
-          <p class="text-left ml-3">Год издания: {{ book.year }}</p>
-          <h5 class="text-left ml-3">Краткое описание</h5>
-          <p class="card-text text-left ml-3 mr-3">{{ book.description }}</p>
-          <a class="nav-link text-left" href="{% url 'library:edit_book' pk=book.id %}">редактировать</a>
-      </div>
+<main role="main">
+  <div class="container">
+    <div class="row pt-5">
+        <div class="col-md-12">
+          <div class="card mb-4 box-shadow">
+            <img class="card-img-top ml-3" 
+              src="/media/{{ book.cover }}"  
+              alt="cover"
+            >
+            <h4 class="card-title text-left pt-2 ml-3">Название: {{ book.title }}</h4>
+            {% load custom_filters %}
+            <h5 class="text-left ml-3">Авторы: {{ book.authors.all|adding_authors }}</h5>
+            <p class="text-left ml-3">Год издания: {{ book.year }}</p>
+            <h5 class="text-left ml-3">Краткое описание</h5>
+            <p class="card-text text-left ml-3 mr-3">{{ book.description }}</p>
+            <a class="nav-link text-left" href="{% url 'library:edit_book' pk=book.id %}">редактировать</a>
+            <button type="button" class="btn btn-danger ml-3" onclick="document.location='{% url 'library:delete_book' pk=book.id %}'" style="width: 100px">Удалить</button>
+        </div>
+    </div>
   </div>
-</div>
+</main>
 {% endblock %}

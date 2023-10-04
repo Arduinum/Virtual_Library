@@ -1,9 +1,9 @@
-from typing import Any
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 from library.serializers import BookListSerializer, BookDetailSerializer
-from django.views.generic import ListView, DetailView, FormView, TemplateView
+from django.views.generic import ListView, DetailView, FormView, TemplateView, DeleteView
 from django.shortcuts import redirect, get_object_or_404
+from django.urls import reverse_lazy
 from library.models import Book
 from library.forms import BookForm
 
@@ -63,6 +63,19 @@ class BookFormView(FormView):
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
+
+
+class BookDeleteView(DeleteView):
+    model = Book
+    template_name = 'library/book_delete.html'
+    success_url = reverse_lazy('library:books')
+    context_object_name = 'book'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated or not request.user.is_superuser:
+            return redirect('library:page404')
+        return super().dispatch(request, *args, **kwargs)
+
 
 class Page404View(TemplateView):
     template_name = 'page404.html'

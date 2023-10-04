@@ -8,8 +8,10 @@
   <form method="POST" enctype="multipart/form-data">
     <div class="form-group w-50 mx-auto">
       {% csrf_token %}
-      <label class="mt-5 float-left">Обложка</label>
-      {{ form.cover }}
+      <label class="mt-5 float-left text-left">
+        Обложка
+        {{ form.cover }}
+      </label>
       {{ form.title }}
       {{ form.authors }}
       {{ form.year }}

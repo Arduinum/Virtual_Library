@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+ 
+{% block body %}
+  <main class="my-auto p-5">
+    <h1>Удаление книги</h1>
+    <form action="" method="post">
+      {% csrf_token %}
+      <p style="color: red;">Вы уверены что хотите удалить "{{ book.title }}"?</p>
+      <input type="submit" value="Продолжить" />
+    </form>
+  </main>
+{% endblock %}
