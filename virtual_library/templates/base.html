@@ -28,6 +28,16 @@
     <nav class="navbar navbar-dark bg-dark sticky-top">
       <a class="navbar-brand" href="#">Онлайн библиотека</a>
       {% block link %}{% endblock %}
+      {% if request.path == "/library/books/" %}
+        <nav class="navbar bg-body-tertiary">
+          <div class="container-fluid">
+            <form class="d-flex" role="search" action="{% url 'library:books' %}" method="get">
+              <input name="data_search" class="form-control me-2" type="text" placeholder="Поиск" aria-label="Поиск">
+              <button class="btn btn-outline-primary ml-4" type="submit">Поиск</button>
+            </form>
+          </div>
+        </nav>
+      {% endif %}
       <button class="navbar-toggler" 
               type="button" 
               data-toggle="collapse" 
@@ -37,7 +47,6 @@
               aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-    
       <div class="collapse navbar-collapse" id="navbarsExample01">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">

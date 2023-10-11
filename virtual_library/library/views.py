@@ -1,11 +1,10 @@
-from typing import Any
-from django.db.models.query import QuerySet
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 from library.serializers import BookListSerializer, BookDetailSerializer
 from django.views.generic import ListView, DetailView, FormView, TemplateView, DeleteView
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
+from django.db.models import Q
 from library.models import Book, Comment
 from library.forms import BookForm, CommentForm
 
@@ -25,8 +24,17 @@ class BookListView(ListView):
     template_name = 'library/book_list.html'
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset.filter(is_published=True)
+        search_query = self.request.GET.get('data_search')
+        # если приходят поисковые данные
+        if search_query:
+            # ищем уникальные id книг что подходят по запросу и были опубликованы
+            books_id = Book.objects.filter(
+                Q(title__icontains=search_query) | Q(authors__name__icontains=search_query), 
+                is_published=True
+            ).values_list('id', flat=True).distinct()
+            return Book.objects.filter(id__in=books_id)
+        # если данных для поиска нет выведет все данные что есть
+        return super().get_queryset().filter(is_published=True)
     
 
 class BookDetailView(DetailView):
@@ -93,12 +101,7 @@ class CommentListView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         book = Book.objects.get(id=self.kwargs.get('pk'))
-        return queryset.filter(book=book)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['book'] = Book.objects.get(id=self.kwargs.get('pk'))
-        return context
+        return queryset.filter(is_published=True, book=book)
 
 
 class CommentFormView(FormView):
@@ -110,14 +113,10 @@ class CommentFormView(FormView):
             return redirect('library:page404')
         return super().dispatch(request, *args, **kwargs)
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        book = Book.objects.get(id=self.kwargs.get('pk'))
-        return queryset.filter(book=book)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['comments'] = Comment.objects.filter(is_published=True)
+        book = Book.objects.get(id=self.kwargs.get('pk'))
+        context['comments'] = Comment.objects.filter(is_published=True, book=book)
         return context
 
     def form_valid(self, form):
@@ -125,7 +124,7 @@ class CommentFormView(FormView):
             comment = form.save(commit=False)
             comment.text = form.cleaned_data['text']
             comment.book = Book.objects.get(id=self.kwargs.get('pk'))
-            comment.is_active = True
+            comment.is_published = True
             comment.user = self.request.user
             comment.save()
             return redirect('library:comments', pk=self.kwargs.get('pk'))

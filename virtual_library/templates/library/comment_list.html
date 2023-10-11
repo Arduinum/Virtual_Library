@@ -15,7 +15,7 @@
         <div class="d-flex">
           {% load custom_filters %}
           <button type="button" 
-                  onclick="document.location='{% url 'library:new_comment' pk=book.id %}'"
+                  onclick="document.location='{% url 'library:new_comment' pk=comments.0.book.id %}'"
                   class="btn btn-primary mt-4">Добавить комментарий
           </button>
         </div>
