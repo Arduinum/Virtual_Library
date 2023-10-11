@@ -22,9 +22,35 @@
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
   <script src="{% static 'js/custom.js' %}"></script>
 </head>
+
 <body class="text-center">
   {% if "login" not in request.path %}
-    {% include './includes/menu-navbar.html' %}
+    <nav class="navbar navbar-dark bg-dark sticky-top">
+      <a class="navbar-brand" href="#">Онлайн библиотека</a>
+      {% block link %}{% endblock %}
+      <button class="navbar-toggler" 
+              type="button" 
+              data-toggle="collapse" 
+              data-target="#navbarsExample01" 
+              aria-controls="navbarsExample01" 
+              aria-expanded="false" 
+              aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarsExample01">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'library:books' %}">Список книг</a>
+          </li>
+          {% if user.is_superuser or user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'library:new_book' %}">Новая книга</a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
   {% endif %}
   {% block body %}{% endblock %}
   {% if "login" not in request.path %}

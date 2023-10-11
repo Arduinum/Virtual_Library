@@ -4,25 +4,63 @@
   Книга
 {% endblock %}
 
+{% block link %}
+  <a class="nav-link name_page" href="#" onclick="location.reload()">Книга</a>
+{% endblock %}
+
 {% block body %}
 <main role="main">
   <div class="container">
     <div class="row pt-5">
-        <div class="col-md-12">
-          <div class="card mb-4 box-shadow">
-            <img class="card-img-top ml-3" 
-              src="/media/{{ book.cover }}"  
-              alt="cover"
-            >
-            <h4 class="card-title text-left pt-2 ml-3">Название: {{ book.title }}</h4>
-            {% load custom_filters %}
-            <h5 class="text-left ml-3">Авторы: {{ book.authors.all|adding_authors }}</h5>
-            <p class="text-left ml-3">Год издания: {{ book.year }}</p>
-            <h5 class="text-left ml-3">Краткое описание</h5>
-            <p class="card-text text-left ml-3 mr-3">{{ book.description }}</p>
-            <a class="nav-link text-left" href="{% url 'library:edit_book' pk=book.id %}">редактировать</a>
-            <button type="button" class="btn btn-danger ml-3" onclick="document.location='{% url 'library:delete_book' pk=book.id %}'" style="width: 100px">Удалить</button>
+      <div class="col-md-12">
+        <div class="card mb-4 border-dark">
+          <img class="card-img-top ml-3 mt-3" 
+            src="/media/{{ book.cover }}"  
+            alt="cover"
+          >
+          <h4 class="card-title text-left pt-2 ml-3">Название: {{ book.title }}</h4>
+          {% load custom_filters %}
+          <h5 class="text-left ml-3">Авторы: {{ book.authors.all|adding_authors }}</h5>
+          <p class="text-left ml-3">Год издания: {{ book.year }}</p>
+          <h5 class="text-left ml-3">Краткое описание</h5>
+          <p class="card-text text-left ml-3 mr-3">{{ book.description }}</p>
+          <dev class="d-flex">
+            <button type="button" 
+                    onclick="document.location='{% url 'library:edit_book' pk=book.id %}'"
+                    style="width: 150px"
+                    class="btn btn-primary ml-3 mb-3">Редактировать
+            </button>
+            <button type="button" 
+                    class="btn btn-danger ml-3 mb-3" 
+                    onclick="document.location='{% url 'library:delete_book' pk=book.id %}'" 
+                    style="width: 100px">Удалить
+            </button>
+          </dev>
         </div>
+      </div>
+    </div>
+    <div class="row pt-5">
+      <div class="col-md-12">
+        <div class="card mb-4 border-dark">
+          {% if comments %}
+            <h4 class="card-title text-left pt-2 ml-3">Последный комментарий</h4>
+            <dev class="d-flex">
+              <p class="card-text mr-auto ml-3">{{ comments.0.user.username }}</p>
+              <p class="card-text mr-3">{{ comments.0.created_at|date:"d.m.Y" }}</p>
+            </dev>
+            <p class="card-text text-left ml-3 mr-3">{{ comments.0.text }}</p>
+            <button type="button" 
+                    onclick="document.location='{% url 'library:comments' pk=book.id %}'"
+                    class="btn btn-primary ml-3 mb-3 mr-3">Все комментарии {{ comments|length }}
+            </button>
+          {% else %}
+            <h4 class="card-title text-left pt-2 ml-3">Комментарии отсутствуют</h4>
+            <button type="button" 
+                    class="btn btn-primary ml-3 mb-3 mr-3">Добавить комментарий
+            </button>
+          {% endif %}
+        </div>
+      </div>
     </div>
   </div>
 </main>

@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator
 from django.utils.timezone import now
+from django.conf import settings
 
 
 class Author(models.Model):
@@ -65,7 +66,7 @@ class Book(models.Model):
 
     description = models.TextField(
         verbose_name='краткое описание',
-        max_length=250,
+        max_length=350,
         blank=False,
         null=False
     )
@@ -97,4 +98,46 @@ class Book(models.Model):
     
     class Meta:
         db_table = 'book'
+        ordering = ['-created_at']
+
+
+class Comment(models.Model):
+    text = models.TextField(
+        verbose_name='комментарий',
+        blank=False,
+        null=False
+    )
+
+    user = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL,
+        verbose_name='пользователь',
+        on_delete=models.CASCADE
+    )
+
+    book = models.ForeignKey(
+        to=Book,
+        verbose_name='книга',
+        on_delete=models.CASCADE
+    )
+
+    is_published = models.BooleanField(
+        verbose_name='опубликован',
+        default=False
+    )
+
+    created_at = models.DateTimeField(
+        verbose_name='дата создания',
+        auto_now_add=True
+    )
+
+    updated_at = models.DateTimeField(
+        verbose_name='дата обновления',
+        auto_now=True
+    )
+
+    def __str__(self):
+        return f'комментарий id {self.id} {self.user.username}'
+    
+    class Meta:
+        db_table = 'comment'
         ordering = ['-created_at']

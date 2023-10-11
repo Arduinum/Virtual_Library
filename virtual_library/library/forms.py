@@ -1,5 +1,5 @@
 from django import forms
-from library.models import Book, Author
+from library.models import Book, Author, Comment
 
 
 class BookForm(forms.ModelForm):
@@ -35,10 +35,25 @@ class BookForm(forms.ModelForm):
                 attrs={
                     'class': 'form-control mt-3',
                     'placeholder': 'описание',
-                    'style': 'height: 160px'
+                    'style': 'height: 135px'
                 }),
             'is_published': forms.CheckboxInput(
                 attrs={
                     'class': 'form-control mt-3 ml-1 mb-2',
                 })           
+        }
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('text', )
+        widgets = {
+            'text': forms.Textarea(
+                attrs={
+                    'class': 'form-control mb-3 mt-3 border-dark',
+                    'style': 'height: 140px'
+
+                }
+            )
         }

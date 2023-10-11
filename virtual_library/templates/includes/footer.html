@@ -1,9 +1,4 @@
-{% load custom_filters %}
-{% if request.path == "/library/books/" or request.path|is_book_detail %}
-  <footer class="bg-dark text-white py-4 sticky-bottom">
-{% else %}
-  <footer class="bg-dark text-white py-4 fixed-bottom">
-{% endif %}
+<footer class="bg-dark text-white py-4 sticky-bottom">
   <div class="container text-center">
     <p>&copy; 2023 Lad-library. Все права защищены.</p>
   </div>

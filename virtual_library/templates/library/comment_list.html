@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+  Комментарии к книге
+{% endblock %}
+
+{% block link %}
+  <a class="nav-link name_page" href="#" onclick="location.reload()">Комментарии к книге</a>
+{% endblock %}
+
+{% block body %}
+  <main role="main">
+    <div class="container">
+      {% if user.is_authenticated %}
+        <div class="d-flex">
+          {% load custom_filters %}
+          <button type="button" 
+                  onclick="document.location='{% url 'library:new_comment' pk=book.id %}'"
+                  class="btn btn-primary mt-4">Добавить комментарий
+          </button>
+        </div>
+      {% endif %}
+      {% for comment in comments %}
+        <div class="row pt-5">
+          <div class="col-md-12">
+            <div class="card mb-4 border-dark">
+              <dev class="d-flex">
+                <p class="card-text mr-auto ml-3">{{ comment.user.username }}</p>
+                <p class="card-text mr-3">{{ comment.created_at|date:"d.m.Y H:i" }}</p>
+              </dev>
+              <p class="card-text text-left ml-3 mr-3 mb-3">{{ comment.text }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </main>
+{% endblock %}

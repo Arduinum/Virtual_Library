@@ -164,3 +164,6 @@ cython_debug/
 
 # for accounts
 accounts/
+
+# for test
+test.py

@@ -4,6 +4,10 @@
   Новая книга
 {% endblock %}
 
+{% block link %}
+  <a class="nav-link name_page" href="#" onclick="location.reload()">Редактирование книги</a>
+{% endblock %}
+
 {% block body %}
   <form method="POST" enctype="multipart/form-data">
     <div class="form-group w-50 mx-auto">
@@ -30,6 +34,6 @@
       </div>
     {% endif %}
 
-    <button type="submit" class="btn btn-primary user-button">Создать</button>
+    <button type="submit" class="btn btn-primary user-button mb-4">Создать</button>
   </form>
 {% endblock %}

@@ -4,6 +4,10 @@
   Список книг
 {% endblock %}
 
+{% block link %}
+  <a class="nav-link name_page" href="{% url 'library:books' %}">Список книг</a>
+{% endblock %}
+
 {% block body %}
   <main role="main">
     <div class="album py-5 bg-light">
@@ -11,7 +15,7 @@
         <div class="row">
           {% for book in books %}
             <div class="col-md-3">
-              <div class="card mb-4 box-shadow">
+              <div class="card mb-4 border-dark">
                 <img class="card-img-top mx-auto" 
                   src="/media/{{ book.cover }}"  
                   alt="cover"
