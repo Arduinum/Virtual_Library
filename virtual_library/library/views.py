@@ -22,6 +22,7 @@ class BookListView(ListView):
     model = Book
     context_object_name = 'books'
     template_name = 'library/book_list.html'
+    paginate_by = 12
 
     def get_queryset(self):
         search_query = self.request.GET.get('data_search')
@@ -45,7 +46,7 @@ class BookDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         book = Book.objects.get(id=self.kwargs.get('pk')) 
-        context['comments'] = Comment.objects.filter(book=book)
+        context['comments'] = Comment.objects.filter(is_published=True, book=book)
         return context
 
 

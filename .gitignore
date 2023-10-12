@@ -162,8 +162,5 @@ cython_debug/
 # for db
 *.sqlite3
 
-# for accounts
-accounts/
-
 # for test
 test.py

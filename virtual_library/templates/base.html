@@ -38,6 +38,17 @@
           </div>
         </nav>
       {% endif %}
+      {% if user.username %}
+        <p class="navbar-brand">{{ user.username }}</p>
+        <button class="btn btn-outline-danger mr-4" type="button"
+          onclick="location.href='{% url 'accounts:logout' %}'">Выйти
+        </button>
+      {% elif "create_user" not in request.path %}
+        <p class="navbar-brand">аноним</p>
+        <button class="btn btn-outline-danger mr-4" type="button"
+          onclick="location.href='{% url 'accounts:create_user' %}'">Регистрация/Вход
+        </button>
+      {% endif %}
       <button class="navbar-toggler" 
               type="button" 
               data-toggle="collapse" 
