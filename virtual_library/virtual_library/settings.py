@@ -11,17 +11,26 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-from os import path
+from os import path, environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env_path = BASE_DIR.parent / '.env'
+
+if env_path.exists():
+    with open(env_path) as file:
+        for line in file:
+            if not line.strip() or line.strip().startswith('#'):
+                continue
+            name, value = line.strip().split('=', 1)
+            environ[name] = value
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-0gr#l!(9q3%t2*r*jy+8e7gfjlelx&3zrs)_am*3$(y32@(_ez'
+SECRET_KEY = environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -80,8 +89,12 @@ WSGI_APPLICATION = 'virtual_library.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'virtual_library.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': environ.get('NAME_DB'),
+        'USER': environ.get('USER_DB'),
+        'PASSWORD': environ.get('PASSWORD'),
+        'HOST': environ.get('HOST'),
+        'PORT': environ.get('PORT')
     }
 }
 
