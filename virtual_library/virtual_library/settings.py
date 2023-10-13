@@ -89,12 +89,8 @@ WSGI_APPLICATION = 'virtual_library.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': environ.get('NAME_DB'),
-        'USER': environ.get('USER_DB'),
-        'PASSWORD': environ.get('PASSWORD'),
-        'HOST': environ.get('HOST'),
-        'PORT': environ.get('PORT')
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ':memory:'
     }
 }
 
