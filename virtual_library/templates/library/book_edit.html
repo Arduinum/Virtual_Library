@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+  Новая книга
+{% endblock %}
+
+{% block link %}
+  <a class="nav-link name_page" href="#" onclick="location.reload()">Редактирование книги</a>
+{% endblock %}
+
+{% block body %}
+  <form method="POST" enctype="multipart/form-data">
+    <div class="form-group w-50 mx-auto">
+      {% csrf_token %}
+      <label class="mt-5 float-left text-left">
+        Обложка
+        {{ form.cover }}
+      </label>
+      {{ form.title }}
+      {{ form.authors }}
+      {{ form.year }}
+      {{ form.description }}
+      <label class="form-check-label">
+        <div class="d-flex align-items-center">
+          Опубликован
+          {{ form.is_published }}
+        </div>
+      </label>
+    </div>
+
+    {% if form.errors %}
+      <div class="alert alert-danger">
+        {{ form.errors }}
+      </div>
+    {% endif %}
+
+    <button type="submit" class="btn btn-primary user-button mb-4">Создать</button>
+  </form>
+{% endblock %}

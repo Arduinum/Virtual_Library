@@ -1,0 +1,5 @@
+Django==4.2.4
+Pillow==10.0.1
+djangorestframework==3.14.0
+factory-boy==3.3.0
+psycopg2-binary==2.9.9
