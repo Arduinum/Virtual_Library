@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: .
+    env_file:
+      - .env
+    ports:
+      - 8090:8090
+    volumes:
+      - library_volume:/data
+    command: bash -c "
+      ./wait-for-postgres.sh db ${NAME_DB} ${USER_DB}
+      && python manage.py migrate --settings=virtual_library.prod_settings
+      && python manage.py loaddata --settings=virtual_library.prod_settings virtual_library.json
+      && python manage.py runserver --settings=virtual_library.prod_settings 0.0.0.0:8090"
+    depends_on:
+      - db
+  db:
+    image: postgres:latest
+    restart: always
+    env_file:
+      - .env
+    ports:
+      # внешний/внутрений
+      - 5480:5432
+    environment:
+      - POSTGRES_USER=${USER_DB}
+      - POSTGRES_PASSWORD=${PASSWORD}
+      - POSTGRES_DB=${NAME_DB}
+    volumes:
+      - postgres_lib_volume:/var/lib/postgresql/data
+volumes:
+  library_volume:
+  postgres_lib_volume:
